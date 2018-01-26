@@ -11,13 +11,7 @@ export class TodoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.todos = [
-      { name: 'buy bread' },
-      { name: 'buy milk'},
-      { name: 'buy eggs'},
-      { name: 'buy corn'},
-      { name: 'buy chips'}
-    ];
+    this.todos = [{ name: '' }];
   }
 
   addElement() {
