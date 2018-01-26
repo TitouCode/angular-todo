@@ -1,0 +1,12 @@
+<div id="todo-container">
+  <h2>{{ pageTitle }}</h2>
+  <ul>
+    <li *ngFor="let todo of todos; index as i">
+      <input type="checkbox" [(ngModel)]="todo.selected">
+      <input [(ngModel)]="todo.name" placeholder="Do stuff.." type="text"/>
+      <div (click)="deleteElement(i)" class="delete-box"></div>
+    </li>
+  </ul>
+  <div (click)="addElement()" class="add-box">Add Todo</div>
+  <div (click)="deleteMulti()" class="delete-multi-box">Delete Multi</div>
+</div>
