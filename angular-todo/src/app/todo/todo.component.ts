@@ -23,28 +23,46 @@ export class TodoComponent implements OnInit {
       );
   }
 
-  // addElement() {
-  //   const lastElement = this.todos.length - 1;
-  //   if (this.todos && !this.todos[lastElement].name) return false;
-  //   this.todos.push({ name: '' });
-  // }
-
   addElement() {
-    if (this.newTodo && !this.newTodo.name) return false;
-    this.todos.push(Object.assign({}, this.newTodo));
-    this.newTodo.name = '';
+    const lastElement = this.todos.length - 1;
+    if (this.todos && !this.todos[lastElement].name) return false;
+    this.todos.unshift(new Todo());
   }
 
+  // addElement() {
+  //   if (this.newTodo && !this.newTodo.name) return false;
+  //   this.todos.push(Object.assign({}, this.newTodo));
+  //   this.newTodo.name = '';
+  // }
 
-  deleteElement(index) {
-    this.todos.splice(index, 1);
+  saveElement(row, index) {
+    if (!row._id) {
+      this.api.createOne('todos', row).subscribe((res) =>
+        this.todos[index] = new Todo(res);
+        console.log(this.todos[index]);
+      );
+      return true;
+    }
+    this.api.updateOne('todos', row._id, row).subscribe((res) => row = res);
+  }
+  deleteElement(id, index) {
+    this.api.deleteOne('todos', id).subscribe(
+        (res) => {
+          this.todos.splice(index, 1);
+        }
+      );
   }
 
   deleteMulti() {
-    for (let t = this.todos.length -1; t >= 0; t--) {
-      const todo = this.todos[t];
-      if (todo.selected) this.todos.splice(t, 1);
-    }
+    const ids = this.todos.filter((t) => t.selected).map((t) => t._id);
+    this.api.delete('todos', ids).subscribe(
+        (res) => {
+          for (let t = this.todos.length -1; t >= 0; t--) {
+            const todo = this.todos[t];
+            if (todo.selected) this.todos.splice(t, 1);
+          }
+        }
+      );
   }
 
 }

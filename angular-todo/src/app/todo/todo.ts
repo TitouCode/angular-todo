@@ -1,5 +1,5 @@
 export class Todo {
-  id: string;
+  _id: string;
   name: string;
   selected: boolean;
   constructor(values: Object = {}) {

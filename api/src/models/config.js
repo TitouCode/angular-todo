@@ -3,6 +3,7 @@ const DB = require('./../config/parameters').DATABASE;
 
 module.exports = {
   init: () => {
+    mongoose.Promise = global.Promise;
     mongoose.connect(`mongodb://${DB.user}:${DB.password}@${DB.host}:${DB.port}/${DB.name}`, { useMongoClient: true });
     console.log('Successfully connected to Mongoose');
   }

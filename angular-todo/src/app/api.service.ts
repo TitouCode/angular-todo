@@ -20,8 +20,41 @@ export class ApiService {
     return this.http
       .get(`${API_URL}/${document}/find`)
       .map(response => {
-        const todos = response.json();
-        return todos.map((todo) => new Todo(todo));
+        const rows = response.json();
+        return rows;
+      })
+      .catch(this.handleError);
+  }
+  public createOne(document: string, row: any): Observable<Todo[]> {
+    return this.http
+      .post(`${API_URL}/${document}/create`, row)
+      .map(response => {
+        console.log(response);
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+  public updateOne(document: string, id: string, row: any): Observable<Todo[]> {
+    return this.http
+      .put(`${API_URL}/${document}/${id}/update`, row)
+      .map(response => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+  public deleteOne(document: string, id: string): Observable<Todo[]> {
+    return this.http
+      .delete(`${API_URL}/${document}/${id}`)
+      .map(response => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+  public delete(document: string, ids: any): Observable<Todo[]> {
+    return this.http
+      .post(`${API_URL}/${document}/delete`, ids)
+      .map(response => {
+        return response.json();
       })
       .catch(this.handleError);
   }

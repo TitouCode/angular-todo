@@ -29,6 +29,37 @@ input {
 .new-todo-box {
   margin-top: 15px;
 }
+.save-box {
+  position: relative;
+  background-color: green;
+  border-radius: 3px;
+  height: 30px;
+  width: 30px;
+  &:hover {
+    cursor: pointer;
+    opacity: .7;
+  }
+  &:before, &:after {
+    content: '';
+    background: white;
+    display: block;
+    height: 2px;
+    position: absolute;
+    top: 14px;
+    left: 7px;
+    width: 15px;
+  }
+  &:before {
+    top: 16px;
+    transform: rotate(45deg);
+    width: 10px;
+  }
+  &:after {
+    top: 15px;
+    left: 13px;
+    transform: rotate(-45deg);
+  }
+}
 .delete-box {
   position: relative;
   background-color: red;
