@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from './../api.service';
+import { Observable } from 'rxjs/Observable';
+import { Todo } from './todo';
+
 
 @Component({
   selector: 'app-todo',
@@ -6,18 +10,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
-  todos: any[] = [];
-  pageTitle: string = 'My Todos';
-  constructor() { }
+  todos: Todo[] = [];
+  newTodo: any = { name: '' };
+  pageTitle: string;
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
-    this.todos = [{ name: '' }];
+    this.api.getAll('todos').subscribe(
+        (todos) => {
+          this.todos = todos;
+        }
+      );
   }
 
+  // addElement() {
+  //   const lastElement = this.todos.length - 1;
+  //   if (this.todos && !this.todos[lastElement].name) return false;
+  //   this.todos.push({ name: '' });
+  // }
+
   addElement() {
-    const lastElement = this.todos.length - 1;
-    if (this.todos && !this.todos[lastElement].name) return false;
-    this.todos.push({ name: '' });
+    if (this.newTodo && !this.newTodo.name) return false;
+    this.todos.push(Object.assign({}, this.newTodo));
+    this.newTodo.name = '';
   }
 
 
