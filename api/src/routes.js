@@ -21,7 +21,6 @@ router.get('/api/:document/find', async (req, res) => {
 // CREATE
 router.post('/api/:document/create', async (req, res) => {
   const records = await restifier.create({ model: req.params.document, params: req.body });
-  console.log(records);
   res.status(200).json(records);
 });
 
