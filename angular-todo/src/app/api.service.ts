@@ -29,7 +29,6 @@ export class ApiService {
     return this.http
       .post(`${API_URL}/${document}/create`, row)
       .map(response => {
-        console.log(response);
         return response.json();
       })
       .catch(this.handleError);

@@ -38,8 +38,7 @@ export class TodoComponent implements OnInit {
   saveElement(row, index) {
     if (!row._id) {
       this.api.createOne('todos', row).subscribe((res) =>
-        this.todos[index] = new Todo(res);
-        console.log(this.todos[index]);
+        this.todos[index] = new Todo(res)
       );
       return true;
     }
