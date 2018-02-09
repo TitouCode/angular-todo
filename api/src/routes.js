@@ -14,7 +14,7 @@ router.use((req, res, next) => {
 
 // FIND
 router.get('/api/:document/find', async (req, res) => {
-  const records = await restifier.find({ model: req.params.document });
+  const records = await restifier.find({ model: req.params.document, conditions: req.query });
   res.status(200).json(records);
 });
 

@@ -16,9 +16,9 @@ export class ApiService {
 
   constructor(private http: Http) { }
   // constructor(private jsonp: Jsonp) { }
-  public getAll(document: string): Observable<Todo[]> {
+  public getAll(document: string, params?: any): Observable<Todo[]> {
     return this.http
-      .get(`${API_URL}/${document}/find`)
+      .get(`${API_URL}/${document}/find`, { params })
       .map(response => {
         const rows = response.json();
         return rows;

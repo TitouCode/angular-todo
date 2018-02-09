@@ -3,9 +3,9 @@ const Mapping = {
 };
 
 class Restifier {
-  async find({ model }) {
+  async find({ model, conditions }) {
     const Document = Mapping[model];
-    return await Document.find().sort({ createdAt: -1 });
+    return await Document.find(conditions || {}).sort({ createdAt: -1 });
   }
   async create({ model, params }) {
     const Document = Mapping[model];

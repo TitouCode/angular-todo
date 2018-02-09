@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const TodoSchema = new Schema({
   name:  String,
+  isDone:  { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 }, { collection: 'todos' });
 

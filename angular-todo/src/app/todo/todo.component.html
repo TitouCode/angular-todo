@@ -1,30 +1,31 @@
 <div id="todo-container">
   <h2>{{ pageTitle }}</h2>
-  <div (click)="addElement()" class="add-box">Add Todo</div>
-  <div (click)="deleteMulti()" class="delete-multi-box">Delete Multi</div>
-  <ul>
+  <div class="global-action-container">
+    <div (click)="addElement()" class="add-box">Add Todo <span class="ion-android-add"></span></div>
+    <div (click)="deleteMulti()" class="delete-multi-box">Delete Multi <span class="ion-close"></span></div>
+  </div>
+  <div *ngIf="loading" class="loader"></div>
+  <ul *ngIf="!loading">
     <li *ngFor="let todo of todos; index as i">
-      <input type="checkbox" [(ngModel)]="todo.selected">
-      <input [(ngModel)]="todo.name" placeholder="Do stuff.." type="text"/>
-      <div (click)="saveElement(todo, i)" class="save-box"></div>
-      <div *ngIf="todo._id" (click)="deleteElement(todo._id, i)" class="delete-box"></div>
+      <div (click)="toggleDone(todo, i)" class="action-box" [ngClass]="{'grey': !todo.isDone, 'green': todo.isDone}" title="Effectuée ?"><span [ngClass]="{'ion-checkmark': todo.isDone, 'ion-ios-minus-empty': !todo.isDone}"></span></div>
+      <input [(ngModel)]="todo.name"
+            (keyup.enter)="saveElement(todo, i)"
+            (ngModelChange)="detectChange($event, i)"
+            placeholder="Do stuff.."
+            type="text"
+            disabled="{{todo.isDone}}"
+      />
+      <div *ngIf="!enableDeleteMulti && !todo.isDone" (click)="saveElement(todo, i)" class="action-box" [ngClass]="{'blue': todo._id, 'green': !todo._id}" title="Sauvegarder"><span [ngClass]="{'ion-edit': todo._id, 'ion-checkmark': !todo._id}"></span></div>
+      <div *ngIf="!enableDeleteMulti && todo._id && !todo.hasChanged && !todo.isDone" (click)="deleteElement(todo._id, i)" class="action-box red" title="Supprimer"><span class="ion-close"></span></div>
+      <div *ngIf="enableDeleteMulti && todo._id" (click)="toggleSelected(todo, i)" class="action-box" [ngClass]="{'grey': !todo.selected, 'red': todo.selected}" title="Selectionner"><span [ngClass]="{'ion-ios-minus-empty': !todo.selected, 'ion-close': todo.selected}"></span></div>
     </li>
   </ul>
-
-
-
-  <!-- <div (click)="addElement()" class="add-box">Add Todo</div>
-  <div class="new-todo-box">
-    <input [(ngModel)]="newTodo.name" placeholder="Do stuff.." type="text"/>
-    <div (click)="addElement()" class="add-box">Add Todo</div>
+  <div *ngIf="enableDeleteMulti" (click)="deleteMulti()" class="delete-multi-container">
+    Delete all selected items
   </div>
-  <hr/>
-  <div (click)="deleteMulti()" class="delete-multi-box">Delete Multi</div>
-  <ul>
-    <li *ngFor="let todo of todos; index as i">
-      <input type="checkbox" [(ngModel)]="todo.selected">
-      <input [(ngModel)]="todo.name" placeholder="Do stuff.." type="text" disabled/>
-      <div (click)="deleteElement(i)" class="delete-box"></div>
-    </li>
-  </ul>-->
+  <div *ngIf="!enableDeleteMulti" class="filters-container">
+    <div (click)="setFilter({ isDone: true })" class="filter-box green">Done</div>
+    <div (click)="setFilter({ isDone: false })" class="filter-box grey">Not Done</div>
+    <div (click)="resetFilter()" class="filter-box red">Reset filter <span class="ion-refresh"></span></div>
+  </div>
 </div>
